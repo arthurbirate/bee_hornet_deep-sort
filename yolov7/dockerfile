@@ -1,0 +1,20 @@
+FROM python:3.9
+
+## Dockerfile
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
+RUN pip install  -r requirements.txt
+RUN pip install streamlit
+
+COPY . .    
+
+RUN echo "import matplotlib\nmatplotlib.use('Agg')" > set_matplotlib_backend.py
+
+
+CMD ["streamlit", "run", "app.py"]
+
